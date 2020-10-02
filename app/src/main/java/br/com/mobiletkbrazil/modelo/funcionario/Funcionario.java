@@ -1,16 +1,38 @@
 package br.com.mobiletkbrazil.modelo.funcionario;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
-import java.sql.Statement;
+import org.jetbrains.annotations.NotNull;
+
+import br.com.mobiletkbrazil.modelo.funcionario.srp.Cargo;
 
 public class Funcionario {
 
     private Integer id;
     private String nome;
     private Double salario;
-    private Connection connection;
+    private Cargo cargo;
+
+    public Funcionario() {
+    }
+
+    public Funcionario(
+            Integer id,
+            String nome,
+            double salario,
+            Cargo cargo
+    ) {
+        this.id = id;
+        this.nome = nome;
+        this.salario = salario;
+        this.cargo = cargo;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
     public String getNome() {
         return nome;
@@ -28,21 +50,22 @@ public class Funcionario {
         this.salario = salario;
     }
 
-    public Double calculaSalario() {
-        return this.salario - (this.salario * 0.225);
+    public Cargo getCargo() {
+        return cargo;
     }
 
-    public void salva() throws SQLException {
-        this.connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/empresa?useSSL=false", "root", "");
-        Statement stmt = this.connection.createStatement();
-        String sql = "insert into funcionario (id, nome, salario) values (" + this.id + "," +
-                this.nome + "," + this.salario + ")";
-        int rs = stmt.executeUpdate(sql);
+    public void setCargo(Cargo cargo) {
+        this.cargo = cargo;
+    }
 
-        if (rs == 1) {
-            System.out.println("Funcionário inserido com sucesso.");
-        } else if (rs == 0) {
-            System.out.println("Nenhum funcionário inserido.");
-        }
+    public double calculaSalario() {
+        return cargo.getRegra().calcula(this);
+    }
+
+    @NotNull
+    @Override
+    public String toString() {
+        return "Funcionário [id=" + id + ", nome=" + nome + ", salario=" + salario +
+                ", cargo=" + cargo + "]";
     }
 }
