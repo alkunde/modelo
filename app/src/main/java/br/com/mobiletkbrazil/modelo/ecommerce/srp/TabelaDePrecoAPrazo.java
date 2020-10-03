@@ -1,7 +1,8 @@
-package br.com.mobiletkbrazil.modelo.ecommerce;
+package br.com.mobiletkbrazil.modelo.ecommerce.srp;
 
-public class TabelaDePrecoAPrazo {
+public class TabelaDePrecoAPrazo implements TabelaDePreco {
 
+    @Override
     public double calculaDesconto(double valor) {
         if (valor > 100.0) {
             return 0.01;

@@ -1,8 +1,9 @@
-package br.com.mobiletkbrazil.modelo.ecommerce;
+package br.com.mobiletkbrazil.modelo.ecommerce.srp;
 
-public class Frete {
+public class Frete implements ServicoDeFrete {
 
-    public double calculaFrete(String estado) {
+    @Override
+    public double calculaFrente(String estado) {
         if ("SAO PAULO".equals(estado.toUpperCase())) {
             return 7.5;
         } else if ("MINAS GERAIS".equals(estado.toUpperCase())) {
