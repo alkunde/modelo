@@ -1,30 +1,29 @@
 package br.com.mobiletkbrazil.modelo.banco;
 
+import br.com.mobiletkbrazil.modelo.banco.lsp.GerenciadorDeContas;
+
 public class ContaCorrenteComum {
 
-    protected double saldo;
+    private GerenciadorDeContas gerenciador;
 
     public ContaCorrenteComum() {
-        this.saldo = 0;
+        this.gerenciador = new GerenciadorDeContas();
     }
 
     public void deposita(double valor) {
-        this.saldo += valor;
+        this.gerenciador.deposita(valor);
     }
 
     public void saca(double valor) {
-        if (valor <= this.saldo) {
-            this.saldo -= valor;
-        } else {
-            throw new IllegalArgumentException("Saldo insuficiente.");
-        }
+        this.gerenciador.saca(valor);
     }
 
     public double getSaldo() {
-        return saldo;
+        return this.gerenciador.getSaldo();
     }
 
-    public void rende() {
-        this.saldo *= 0.02;
+    @Override
+    public String toString() {
+        return "Saldo conta corrente -> " + this.getSaldo();
     }
 }
